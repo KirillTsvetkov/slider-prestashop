@@ -88,7 +88,6 @@ class Slider extends Module implements WidgetInterface
         $slidename = Tools::getValue('slidename');
         $active = Tools::getValue('active');
         $sliderfile = Tools::getValue('sliderfile');
-        var_dump($sliderfile);
         $target_file = _PS_ROOT_DIR_.'\modules\slider\img\\'.$_FILES["sliderfile"]["name"];
         if($sliderfile!==""){
             if(!move_uploaded_file($_FILES["sliderfile"]["tmp_name"], $target_file)){
@@ -116,7 +115,6 @@ class Slider extends Module implements WidgetInterface
             }
             $sql ="update `"._DB_PREFIX_."slider` 
             set".$url." name = '".$slidename."',status='".$active."' where id_slide =".$id;
-            echo $sql;
             if(!$result=Db::getInstance()->Execute($sql)){
                 return false;
             }
@@ -133,10 +131,15 @@ class Slider extends Module implements WidgetInterface
     {
         if (Tools::isSubmit('id_slide')) {
             if(isset($_GET['deleteslider'])){
-                echo 'Удаление';
+                $id_slide = $_GET['id_slide'];
+                $sql = "DELETE FROM `"._DB_PREFIX_."slider` WHERE id_slide =".$id_slide;
+                if(!$result=Db::getInstance()->Execute($sql))
+                {
+                    return false;
+                }
+                return $this->renderForm();
             }
             else{
-                echo 'Не удаление';
                 $id_slide = $_GET['id_slide'];
                 $sql = "SELECT * FROM `"._DB_PREFIX_."slider` WHERE id_slide =".$id_slide;
                 $result=Db::getInstance()->ExecuteS($sql);
