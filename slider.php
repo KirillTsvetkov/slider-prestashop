@@ -43,7 +43,8 @@ class Slider extends Module implements WidgetInterface
         }
         
         return parent::install()&&
-            $this->registerHook('displayHome');
+            $this->registerHook('displayHome')&&
+            $this->registerHook('header');
     }
 
     public function uninstall()
@@ -55,7 +56,7 @@ class Slider extends Module implements WidgetInterface
         return parent::uninstall();
     }
     
-    public function hookDisplayHome()
+    public function hookHeader()
     {
         $this->context->controller->addJS(($this->_path).'/js/slider.js');
         $this->context->controller->addCSS(($this->_path).'/css/slider.css');
